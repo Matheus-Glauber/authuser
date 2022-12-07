@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  postgres-authuser:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "15432:5432"
+    networks:
+      - postgres-compose-network
+
+  pgadmin-authuser:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "glauber.jordao1995@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres-authuser
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
