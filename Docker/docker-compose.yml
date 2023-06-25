@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres-authuser:
+    image: postgres
+    environment:
+      POSTGRES_USER: "matheus-glauber"
+      POSTGRES_PASSWORD: "adminGlaub"
+    ports:
+      - "15433:5432"
+    networks:
+      - postgres-compose-network
+
+  pgadmin-authuser:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "glauber.jordao1995@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16544:80"
+    depends_on:
+      - postgres-authuser
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
