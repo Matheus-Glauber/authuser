@@ -6,6 +6,7 @@ import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,8 @@ public class AuthenticationController implements AuthenticationApi {
 
     @Override
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Object> registerUser(@RequestBody
+                                                   @JsonView(UserDto.UserView.RegistrationPost.class) UserDto userDto) {
         if(userService.existsByUserName(userDto.username())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Param Username already exist in database");
         }
