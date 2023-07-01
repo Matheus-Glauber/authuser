@@ -1,6 +1,7 @@
 package com.ead.authuser.controllers.api;
 
 import com.ead.authuser.dtos.UserDto;
+import com.ead.authuser.dtos.response.PayloadResponse;
 import com.ead.authuser.models.UserModel;
 import org.springframework.http.ResponseEntity;
 
@@ -11,13 +12,13 @@ public interface UserApi {
 
     ResponseEntity<List<UserModel>> getAll();
 
-    ResponseEntity<Object> getUserById(UUID userId);
+    ResponseEntity<UserModel> getUserById(UUID userId);
 
     ResponseEntity deleteById(UUID userId);
 
-    ResponseEntity<Object> updateById(UUID userId, UserDto user);
-    ResponseEntity<Object> updatePasswordById(UUID userId, UserDto user);
+    ResponseEntity<PayloadResponse<UserModel>> updateById(UUID userId, UserDto user);
+    ResponseEntity<PayloadResponse> updatePasswordById(UUID userId, UserDto user);
 
-    ResponseEntity<Object> updateImageById(UUID userId, UserDto user);
+    ResponseEntity<PayloadResponse> updateImageById(UUID userId, UserDto user);
 
 }
