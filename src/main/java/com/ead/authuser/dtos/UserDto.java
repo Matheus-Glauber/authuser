@@ -1,5 +1,6 @@
 package com.ead.authuser.dtos;
 
+import com.ead.authuser.validations.UsernameConstraint;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.Email;
@@ -13,17 +14,20 @@ public record UserDto(
         UUID userId,
         @NotBlank(groups = UserView.RegistrationPost.class,
                 message = "The username is required.")
-        @Size(min = 4, max = 500, message = "The username attribute must have a min={min} and max={max} characters.")
+        @Size(groups = UserView.RegistrationPost.class,
+                min = 4, max = 500, message = "The username attribute must have a min={min} and max={max} characters.")
+        @UsernameConstraint(groups = UserView.RegistrationPost.class,
+                message = "The username '${validatedValue}' cannot have spaces.")
         @JsonView(UserView.RegistrationPost.class)
         String username,
         @NotBlank(groups = UserView.RegistrationPost.class,
                 message = "The email is required.")
-        @Email
+        @Email(groups = UserView.RegistrationPost.class)
         @JsonView(UserView.RegistrationPost.class)
         String email,
         @NotBlank(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class},
                 message = "The password is required.")
-        @Size(min = 6, max = 20, message = "The '${validatedValue} value must have a min={min} and max={max} characters.",
+        @Size(min = 6, max = 20, message = "The '${validatedValue}' value must have a min={min} and max={max} characters.",
                 groups = UserView.PasswordPut.class)
         @JsonView({UserView.RegistrationPost.class, UserView.PasswordPut.class})
         String password,
