@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class UserController implements UserApi {
     @Override
     @PutMapping("/{userId}")
     public ResponseEntity<PayloadResponse<UserModel>> updateById(@PathVariable(value = "userId") UUID userId,
+                                             @Validated(UserDto.UserView.UserPut.class)
                                              @RequestBody @JsonView(UserDto.UserView.UserPut.class) UserDto user) {
         UserModel response = mapper.updatedAttributes(userService.findById(userId), user);
         userService.save(response);
@@ -65,9 +67,10 @@ public class UserController implements UserApi {
     @Override
     @PutMapping("/password/{userId}")
     public ResponseEntity<PayloadResponse> updatePasswordById(@PathVariable(value = "userId") UUID userId,
-                                             @RequestBody @JsonView(UserDto.UserView.PasswordPut.class) UserDto user) {
+                                            @Validated(UserDto.UserView.PasswordPut.class)
+                                            @RequestBody @JsonView(UserDto.UserView.PasswordPut.class) UserDto user) {
         UserModel response = userService.findById(userId);
-        userService.validPassword(user.password(), response.getPassword());
+        userService.validPassword(user.oldPassword(), response.getPassword());
         userService.save(mapper.updatePassword(response, user));
         return ResponseEntity.ok(PayloadResponse
                 .builder()
@@ -79,7 +82,8 @@ public class UserController implements UserApi {
     @Override
     @PutMapping("/image/{userId}")
     public ResponseEntity<PayloadResponse> updateImageById(@PathVariable(value = "userId") UUID userId,
-                                                     @RequestBody @JsonView(UserDto.UserView.ImagePut.class) UserDto user) {
+                                                    @Validated(UserDto.UserView.ImagePut.class)
+                                                    @RequestBody @JsonView(UserDto.UserView.ImagePut.class) UserDto user) {
         UserModel response = userService.findById(userId);
         userService.save(mapper.updateImage(response, user));
         return ResponseEntity.ok(PayloadResponse
