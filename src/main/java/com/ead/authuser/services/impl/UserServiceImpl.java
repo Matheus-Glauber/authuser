@@ -7,6 +7,7 @@ import com.ead.authuser.exceptions.ParamAlreadyExistsException;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserModel userModel) {
+        log.info(String.format("User: %s save successfully.", userModel.getUsername()));
         userRepository.save(userModel);
     }
 
