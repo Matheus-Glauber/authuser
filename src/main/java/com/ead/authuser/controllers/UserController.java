@@ -9,12 +9,15 @@ import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,8 +33,10 @@ public class UserController implements UserApi {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<UserModel>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+    public ResponseEntity<Page<UserModel>> getAll(@PageableDefault(sort = "userId", direction = Sort.Direction.ASC)
+                                                  Pageable pageable) {
+        Page<UserModel> userModelPage = userService.getAll(pageable);
+        return ResponseEntity.ok(userModelPage);
     }
 
     @Override

@@ -9,6 +9,8 @@ import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,5 +64,10 @@ public class UserServiceImpl implements UserService {
         if(!newPassword.equals(oldPassword)) {
             throw new InvalidPasswordException(Messages.INVALID_PASSWORD);
         }
+    }
+
+    @Override
+    public Page<UserModel> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
