@@ -3,6 +3,7 @@ package com.ead.authuser.controllers.api;
 import com.ead.authuser.dtos.UserDto;
 import com.ead.authuser.dtos.response.PayloadResponse;
 import com.ead.authuser.models.UserModel;
+import com.ead.authuser.specifications.SpecificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 public interface UserApi {
 
-    ResponseEntity<Page<UserModel>> getAll(Pageable pageable);
+    ResponseEntity<Page<UserModel>> getAll(Pageable pageable, SpecificationTemplate.UserSpec spec);
 
     ResponseEntity<UserModel> getUserById(UUID userId);
 

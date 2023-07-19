@@ -7,6 +7,7 @@ import com.ead.authuser.dtos.response.PayloadResponse;
 import com.ead.authuser.mapper.UserMapper;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
+import com.ead.authuser.specifications.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,8 +35,9 @@ public class UserController implements UserApi {
     @Override
     @GetMapping
     public ResponseEntity<Page<UserModel>> getAll(@PageableDefault(sort = "userId", direction = Sort.Direction.ASC)
-                                                  Pageable pageable) {
-        Page<UserModel> userModelPage = userService.getAll(pageable);
+                                                  Pageable pageable,
+                                                  SpecificationTemplate.UserSpec spec) {
+        Page<UserModel> userModelPage = userService.getAll(pageable, spec);
         return ResponseEntity.ok(userModelPage);
     }
 
