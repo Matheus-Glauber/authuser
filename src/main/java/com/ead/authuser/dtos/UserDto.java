@@ -8,10 +8,12 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 @JsonNaming(PropertyNamingStrategy.PascalCaseStrategy.class)
 public record UserDto(
         UUID userId,

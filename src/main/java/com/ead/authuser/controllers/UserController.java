@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.ead.authuser.dtos.response.Messages.USER_DELETED_SUCCESSFULLY;
+
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/users")
@@ -51,7 +53,7 @@ public class UserController implements UserApi {
         userService.deleteById(userId);
         return ResponseEntity.ok(PayloadResponse
                 .builder()
-                .message(String.format(Messages.USER_DELETED_SUCCESSFULLY, userId))
+                .message(String.format(USER_DELETED_SUCCESSFULLY, userId))
                 .httpStatus(HttpStatus.OK)
                 .build());
     }
